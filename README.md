@@ -1,32 +1,27 @@
 # pinocchIO
-firmware for an IO controller with USB interface
+	firmware for an IO controller with USB interface
 
 
 ### uC	STM32F103RET6
- * 32BIT ARM-MCU 
- * ... FLASH
- * max. ... IO-channels
- * max. clock speed ...
+	 * 32BIT ARM-MCU 
+	 * ... FLASH
+	 * max. ... IO-channels
+	 * max. clock speed ...
 
 
 ### Concept
- * VOUTA = PA4 -> DAC_OUT1
- * VOUTB = PA5 -> DAC_OUT2
+	 * VOUTA = PA4 -> DAC_OUT1
+	 * VOUTB = PA5 -> DAC_OUT2
 
 ### actual Config
- * ... Hz SYCLK
- * ... Hz ABP1 (Timers)
- * ... Hz ABP2 (Periphs)
- * std=gnu11 ... C11-Standard with gnu extensions
-
-
-### allocation of resources:
- * DAC-CH1: VOUT1
- * DAC-CH2: VOUT2
+	 * ... Hz SYCLK
+	 * ... Hz ABP1 (Timers)
+	 * ... Hz ABP2 (Periphs)
+	 * std=gnu11 ... C11-Standard with gnu extensions
 
 ### flashing from CMD in Win
- * make all
- * st-link_cli -P m011.bin 0x08000000 && st-link_cli -Rst
+	 * make all
+	 * st-link_cli -P m011.bin 0x08000000 && st-link_cli -Rst
 
 ### flashing from linux
 	~/dow/stlink/build/Release/bin/st-flash
@@ -35,7 +30,7 @@ firmware for an IO controller with USB interface
 
 ### powerup m011-HW
 	* GND lift switch
-	* Close from both roses
+	* short both resistors 'Ros'
 	* BNC/SMA sockets
 	* close Voff
 	* trim Voff to 1.65

@@ -1,0 +1,7 @@
+.pytest_cache/
+.settings/*
+__pycache__/
+Debug/
+Release/
+Coverage/
+doxygen/

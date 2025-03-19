@@ -54,13 +54,13 @@ bool initKeepalive()
  * @brief	set keepalive timeout in seconds
  *
  * */
+
 bool keepaliveSetPeriod(float period)
 {	tim1SetRegUpdating();
 	bool resetted = setTIM(TIM1, period);
 	resetTIM(TIM1);
     updateEventTIM(TIM1);
     keepaliveDelayMs(2);
-    // delay_ms(2);
     tim1ClrRegUpdating();
     return resetted;
 }

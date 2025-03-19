@@ -16,13 +16,7 @@
 
 #define	TIMS_MANUAL_ISR
 
-
-uint32_t getSysClk()
-{
-	return SystemCoreClock;
-}
-
-
+uint32_t getSysClk()	{	return SystemCoreClock;	}
 
 uint32_t getP1TimClk()
 {	return getSysClk();
@@ -79,18 +73,6 @@ bool initTIM(TIM_TypeDef * TIMx, int psc, int arr)
 		// NVIC_EnableIRQ( TIM1_BRK_IRQn);
 		NVIC_EnableIRQ( TIM1_UP_IRQn);
 	}
-	if( TIM2 == TIMx )
-	{	RCC -> APB1ENR |= RCC_APB1ENR_TIM2EN;       // enable TIM2 clock
-		NVIC_EnableIRQ( TIM2_IRQn);
-	}
-	if( TIM3 == TIMx )
-	{	RCC -> APB1ENR |= RCC_APB1ENR_TIM3EN;       // enable TIM2 clock
-		NVIC_EnableIRQ( TIM3_IRQn);
-	}
-	if( TIM4 == TIMx )
-	{	RCC -> APB1ENR |= RCC_APB1ENR_TIM4EN;       // enable TIM2 clock
-		NVIC_EnableIRQ( TIM4_IRQn);
-	}
 
 	TIMx -> PSC = psc;							// set prescaler
 	TIMx -> DIER |= TIM_DIER_UIE;				// enable update interrupt
@@ -99,10 +81,6 @@ bool initTIM(TIM_TypeDef * TIMx, int psc, int arr)
 	TIMx -> EGR = 1;                  			// trigger update event to reload timer registers
 	CLEAR_BIT(TIMx->CR1, TIM_CR1_CEN);
 	SET_BIT(TIMx->EGR, TIM_EGR_UG); // ...update event
-	// SET_BIT(TIMx->EGR, TIM_EGR_CC1G); // ...capcom1 event
-	// SET_BIT(TIMx->EGR, TIM_EGR_CC2G); // ...capcom2 event
-	// SET_BIT(TIMx->EGR, TIM_EGR_BG); // ...break event
-	// SET_BIT(TIMx->CR1, TIM_CR1_CEN);
 
 	return true;
 }
@@ -121,13 +99,6 @@ bool startTIM(TIM_TypeDef * TIMx)
 	return 	true == READ_BIT(TIMx->CR1, TIM_CR1_CEN);
 }
 
-//void startTimer(TIM_TypeDef * TIMx)
-//{
-//	SET_BIT(TIMx->EGR, TIM_EGR_UG); // ...update event
-//	SET_BIT(TIMx->EGR, TIM_EGR_CC1G); // ...cc1 event
-//	SET_BIT(TIMx->EGR, TIM_EGR_CC2G); // ...cc2 event
-//	SET_BIT(TIMx->CR1, TIM_CR1_CEN);
-//};/
 bool resetTIM(TIM_TypeDef * TIMx)
 {	CLEAR_REG(TIMx->CNT);
 	return 0x00 == TIMx->CNT;
@@ -141,26 +112,13 @@ void updateEventTIM(TIM_TypeDef * TIMx)
 
 bool setTIM(TIM_TypeDef * TIMx, float period)
 {
-	#ifdef	TIMS_MANUAL_ISR
-	if( TIM2 == TIMx ||
-		TIM3 == TIMx ||
-		TIM4 == TIMx )
-		period = period/2;
-	#endif	// TIMS_MANUAL_ISR
-
 	if( TIM_MIN_PERIOD <= period && period <= TIM_MAX_PERIOD )//
 	{
-		// stopTIM(TIMx);
-
 		int psc = getTimerPSC(period);
 		int arr = getTimerARR(period, psc);
 
-		TIMx -> PSC = psc;						// PSC < 2^16; 48MHz/48000=1kHz
-		TIMx -> ARR = arr;						// ARR < 2^16, ARR//  = 1000 -> 1s
-
-		//// resetTIM(TIMx);
-		// SET_BIT(TIMx->EGR, TIM_EGR_UG); // ...update event
-
+		TIMx -> PSC = psc;
+		TIMx -> ARR = arr;
 
 		return true;
 	}else{

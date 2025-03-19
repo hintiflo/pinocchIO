@@ -35,48 +35,10 @@
 
 
 int getScpiIdfromMsg(char * scpiCmd);
-char * getScpiTok1(char * scpiMsg);
-int getScpiSubsys(char * scpiMsg);
+//char * getScpiTok1(char * scpiMsg);
+//int getScpiSubsys(char * scpiMsg);
 static float getFloatFromStr(char * source);
 static int getIntFromStr(char * source);
-
-
-	#ifdef	UNIFIED_SCPI_VECTOR
-								//	  Row
-								//	  /	Column
-								//	 / / String
-								//	/ /	/
-		static const char scpiRxMsgs[][ SCPI_IN_STRCNT ][MAX_SCPI_IN_STRELN] =
-		{
-			{"*CLS",		"*CLS"			},		// Clear Status Command
-			{"*ESE",		"*ESE" 			},		// Standard Event Status Enable Command
-			{"*ESE?",		"*ESE?" 		},		// Standard Event Status Enable Query
-			{"*ESR?",		"*ESR?" 		},		// Standard Event Status Register Query
-			{"*IDN?",		"*IDN?" 		},		// Identification Query
-			{"*OPC",		"*OPC" 			},		// Operation Complete Command
-			{"*OPC?",		"*OPC?" 		},		// Operation Complete Query
-			{"*RST",		"*RST" 			},		// Reset Command
-			{"*SRE",		"*SRE" 			},		// Service Request Enable Command
-			{"*SRE?",		"*SRE?" 		},		// Service Request Enable Query
-			{"*STB?",		"*STB?" 		},	// Read Status Byte Query
-			{"*TST?",		"*TST?" 		},	// Self-Test Query
-			{"*WAI",		"*WAI" 			},	// Wait-to-Continue Command
-			{"REL0 ON",		"Relay0 on" 	},
-			{"REL0 OFF",	"Relay0 off" 	},
-			{"REL0?",		"Relay0?" 		},
-			{"REL1 ON",		"Relay1 on" 	},
-			{"REL1 OFF",	"Relay1 off" 	},
-			{"REL1?",		"Relay1?" 		},
-			{"STAT0 ON",	"State0 on" 	},
-			{"STAT0 OFF",	"State0 off" 	},
-			{"STAT0?",		"State0?" 		},
-			{"STAT1 ON",	"State1 on" 	},
-			{"STAT1 OFF",	"State1 off" 	},
-			{"STAT1?",		"State1?" 		},
-		};
-
-	#endif	// UNIFIED_SCPI_VECTOR
-
 
 	#ifndef	UNIFIED_SCPI_VECTOR
 		static const char scpiRxLongMsgs[][MAX_SCPI_IN_STRELN] =
@@ -399,19 +361,8 @@ static int getIntFromStr(char * source);
  */
 typedef enum
 {
-			RX_CLS,
-			RX_ESE,
-			RX_ESEq,
-			RX_ESRq,
 			RX_IDNq,
-			RX_OPC,
-			RX_OPCq,
 			RX_RST,
-			RX_SRE,
-			RX_SREq,
-			RX_STBq,
-			RX_TSTq,
-			RX_WAI,
 
 			RX_REL0_ON,
 			RX_REL0_OFF,
@@ -420,126 +371,10 @@ typedef enum
 			RX_REL1_OFF,
 			RX_REL1q,
 
-		#ifdef PCBv02
-			RX_PC_0_ON,
-			RX_PC_0_OFF,
-			RX_PC_0q,
-			RX_PC_1_ON,
-			RX_PC_1_OFF,
-			RX_PC_1q,
-		#endif // PCBv02
-
-
-			RX_PB_0_OUT		,
-			RX_PB_0_IN		,
-			RX_PB_0_PULLD	,
-			RX_PB_0_PULLU	,
-			RX_PB_0_NOPULL	,
-			RX_PB_0_RISE	,
-			RX_PB_0_FALL	,
-			RX_PB_0_NOIRQ	,
-			RX_PB_0_PULLq	,
-			RX_PB_0_IRQq	,
-			RX_PB_0_STATEq	,
-			RX_PB_0_DIRq	,
-
-			RX_PB_1_OUT		,
-			RX_PB_1_IN		,
-			RX_PB_1_PULLD	,
-			RX_PB_1_PULLU	,
-			RX_PB_1_NOPULL	,
-			RX_PB_1_RISE	,
-			RX_PB_1_FALL	,
-			RX_PB_1_NOIRQ	,
-			RX_PB_1_PULLq	,
-			RX_PB_1_IRQq	,
-			RX_PB_1_STATEq	,
-			RX_PB_1_DIRq	,
-
-			RX_PB_0_ON		,
-			RX_PB_0_OFF		,
-			RX_PB_0q		,
-			RX_PB_1_ON		,
-			RX_PB_1_OFF		,
-			RX_PB_1q		,
-
-			RX_PORTA_0_ON,
-			RX_PORTA_0_OFF,
-			RX_PORTA_0_q,
-			RX_PORTA_1_ON,
-			RX_PORTA_1_OFF,
-			RX_PORTA_1_q,
-			RX_PORTA_2_ON,
-			RX_PORTA_2_OFF,
-			RX_PORTA_2_q,
-			RX_PORTA_3_ON,
-			RX_PORTA_3_OFF,
-			RX_PORTA_3_q,
-			RX_PORTA_4_ON,
-			RX_PORTA_4_OFF,
-			RX_PORTA_4_q,
-			RX_PORTA_5_ON,
-			RX_PORTA_5_OFF,
-			RX_PORTA_5_q,
-			RX_PORTA_6_ON,
-			RX_PORTA_6_OFF,
-			RX_PORTA_6_q,
-			RX_PORTA_7_ON,
-			RX_PORTA_7_OFF,
-			RX_PORTA_7_q,
-			RX_PORTA_8_ON,
-			RX_PORTA_8_OFF,
-			RX_PORTA_8_q,
-			RX_PORTA_9_ON,
-			RX_PORTA_9_OFF,
-			RX_PORTA_9_q,
-			RX_PORTA_10_ON,
-			RX_PORTA_10_OFF,
-			RX_PORTA_10_q,
-			RX_PORTA_11_ON,
-			RX_PORTA_11_OFF,
-			RX_PORTA_11_q,
-			RX_PORTA_12_ON,
-			RX_PORTA_12_OFF,
-			RX_PORTA_12_q,
-			RX_PORTA_13_ON,
-			RX_PORTA_13_OFF,
-			RX_PORTA_13_q,
-			RX_PORTA_14_ON,
-			RX_PORTA_14_OFF,
-			RX_PORTA_14_q,
-			RX_PORTA_15_ON,
-			RX_PORTA_15_OFF,
-			RX_PORTA_15_q,
-
 			RX_VOUTA_VOLT,		// float voltage
 			RX_VOUTB_VOLT,		// float voltage
 			RX_VOUTA_VOLTq,
 			RX_VOUTB_VOLTq,
-
-			RX_TIMA_START,
-			RX_TIMA_STOP,
-			RX_TIMAq,
-			RX_TIMA_FREQ,               	// float 1/period
-			RX_TIMA_PERI,               	// float period
-			RX_TIMA_FREQq,
-			RX_TIMA_PERIq,
-
-			RX_TIMB_START,
-			RX_TIMB_STOP,
-			RX_TIMBq,
-			RX_TIMB_FREQ,               	// float 1/period
-			RX_TIMB_PERI,               	// float period
-			RX_TIMB_FREQq,
-			RX_TIMB_PERIq,
-
-			RX_TIMC_START,
-			RX_TIMC_STOP,
-			RX_TIMCq,
-			RX_TIMC_FREQ,               	// float 1/period
-			RX_TIMC_PERI,               	// float period
-			RX_TIMC_FREQq,
-			RX_TIMC_PERIq,
 
 			RX_KA_peri,
 			RX_KA_on,
@@ -547,7 +382,6 @@ typedef enum
 			RX_KA_up,
 			RX_KAq,
 
-			RX_DBG_READREG,
 			RX_DBG_BLINK,
 			RX_DBG_CPUID,
 
@@ -648,25 +482,12 @@ int getScpiIdfromMsg(char * scpiCmd)
 
 	for(int idx = 0; idx < SCPI_IN_STRCNT; idx ++)
 	{
-		#ifdef	UNIFIED_SCPI_VECTOR
-			if ( 0 == strncasecmp(scpiCmd, scpiRxMsgs[idx][0], strlen(scpiRxMsgs[idx][0]) ) )
-				scpiID = idx;
-			else if ( 0 == strncasecmp(scpiCmd, scpiRxMsgs[idx][1], strlen(scpiRxMsgs[idx][1]) ) )
-				scpiID = idx;
-			//	else
-			//		scpiID = -1;
-		#endif //	UNIFIED_SCPI_VECTOR
-
-		#ifndef	UNIFIED_SCPI_VECTOR
 			if ( 0 == strncasecmp(scpiCmd, scpiRxShortMsgs[idx], strlen(scpiRxShortMsgs[idx]) ) )
 					scpiID = idx;
 			else if ( 0 == strncasecmp(scpiCmd, scpiRxLongMsgs[idx], strlen(scpiRxLongMsgs[idx]) ) )
 				scpiID = idx;
 			//	else
 			//		scpiID = -1;
-
-		#endif //	UNIFIED_SCPI_VECTOR
-
 	}
 
 	return scpiID;
@@ -738,30 +559,30 @@ static int getIntFromStr(char * source)
 }
 
 
-int getScpiSubsys(char * scpiMsg)
-{
-	char * locScpiMsg;
-	locScpiMsg = strdup(scpiMsg);
-
-	int subSys = -1;
-	char * tok1;
-	char delimiter1[] = " :";
-	tok1 = strtok(locScpiMsg, delimiter1);
-	// printf("tok1 = %s \n", tok1);
-
-	int idx;
-	for (idx = 0; idx < SCPI_SUBSYS_CNT; idx++)
-		if (0 == strncasecmp(tok1, subSyses[idx], strlen(subSyses[idx])))
-			subSys = idx;
-	// free(locScpiMsg);
-	return subSys;
-}
-
-
-char * getScpiTok1(char * scpiMsg)
-{
-	return strtok(scpiMsg, ":");
-}
+//int getScpiSubsys(char * scpiMsg)
+//{
+//	char * locScpiMsg;
+//	locScpiMsg = strdup(scpiMsg);
+//
+//	int subSys = -1;
+//	char * tok1;
+//	char delimiter1[] = " :";
+//	tok1 = strtok(locScpiMsg, delimiter1);
+//	// printf("tok1 = %s \n", tok1);
+//
+//	int idx;
+//	for (idx = 0; idx < SCPI_SUBSYS_CNT; idx++)
+//		if (0 == strncasecmp(tok1, subSyses[idx], strlen(subSyses[idx])))
+//			subSys = idx;
+//	// free(locScpiMsg);
+//	return subSys;
+//}
+//
+//
+//char * getScpiTok1(char * scpiMsg)
+//{
+//	return strtok(scpiMsg, ":");
+//}
 
 
 

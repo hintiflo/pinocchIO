@@ -17,18 +17,8 @@
 #define	TIMS_MANUAL_ISR
 
 uint32_t getSysClk()	{	return SystemCoreClock;	}
+uint32_t getP1TimClk()	{	return getSysClk();		}
 
-uint32_t getP1TimClk()
-{	return getSysClk();
-}
-
-// uint32_t getP2TimClk()
-// {	return 2*HAL_RCC_GetPCLK2Freq();	// Timer-CLK has a hardwired factor x2 from PCLK2
-// }
-
-// returns PSC for given Timer-period in secs ( 0 ... 4us)
-// PSC = (period * TCLK)/(ARR+1)-1
-// a return of '0' indicates an error, due to impossible timer-period
 uint32_t getTimerPSC(float period)
 {	uint32_t psc = 0;
 
@@ -43,15 +33,9 @@ uint32_t getTimerPSC(float period)
 	return psc;
 }
 
-// returns ARR for given Timer-period in secs ( 0 ... 4us) and PSC
-// a return of '0' indicates an error, due to impossible timer-period
 uint32_t getTimerARR(float period, uint32_t psc)
 {	uint32_t	arr = 0,
 				TCLK = getP1TimClk();
-	// sanity-check: 4us > period > 50s and psc within 1 .. 2^16 - 1,
-	// otherwiese leave arr to '0'
-//	if( 4.00E-06 	<= period 	&& period  	<= 50.00E-00 &&
-//		1 			<= psc 		&& psc 		< 65535	)
 	float periodCLK = period*TCLK;
 	float periodCLKbyPSC = periodCLK / (psc+1.0);
 	arr = (uint32_t) ( periodCLKbyPSC  ) -1.0;
@@ -70,7 +54,6 @@ bool initTIM(TIM_TypeDef * TIMx, int psc, int arr)
 {
 	if( TIM1 == TIMx )
 	{	RCC -> APB2ENR |= RCC_APB2ENR_TIM1EN;       // enable TIM2 clock
-		// NVIC_EnableIRQ( TIM1_BRK_IRQn);
 		NVIC_EnableIRQ( TIM1_UP_IRQn);
 	}
 
@@ -88,13 +71,11 @@ bool initTIM(TIM_TypeDef * TIMx, int psc, int arr)
 bool stopTIM(TIM_TypeDef * TIMx)
 {	CLEAR_BIT(TIMx->CR1, TIM_CR1_CEN);
 	CLEAR_REG(TIMx->CNT);
-	// SET_BIT(TIMx->EGR, TIM_EGR_UG); // ...update event
 	return false == READ_BIT(TIMx->CR1, TIM_CR1_CEN);
 }
 
 bool startTIM(TIM_TypeDef * TIMx)
 {	stopTIM(TIMx);
-	// SET_BIT(TIMx->EGR, TIM_EGR_UG); // ...update event
 	SET_BIT(TIMx->CR1, TIM_CR1_CEN);
 	return 	true == READ_BIT(TIMx->CR1, TIM_CR1_CEN);
 }

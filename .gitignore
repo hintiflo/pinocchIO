@@ -1,2 +1,6 @@
 Release/
+Debug/
+
+# Eclipse CDT project files
 .settings/
+

@@ -73,6 +73,11 @@ int main()
 				case	RX_VOUTA_VOLTq:		usbCdcTxEnqueueStrsFloat(readDacVolts(1), 1, "VOUTA:");			break;
 				case	RX_VOUTB_VOLTq:		usbCdcTxEnqueueStrsFloat(readDacVolts(2), 1, "VOUTB:");			break;
 
+				// TimerA
+				case	RX_TIMA_FREQ:	setTimerA(1/getFloatFromStr(usbInBuf))?	usbEnq(scpiTxMsgs[TX_PARAM_OK]) : usbEnq(scpiTxMsgs[TX_PARAM_ERR]);		break;
+				case	RX_TIMA_FREQq:	usbCdcTxEnqueueStrsFloat(1/(2*getTimerPeriod((TIM2->PSC), (TIM2->ARR))), 2, subSyses[SYSID_TIMERA], scpiTxMsgs[TX_FREQUENCY]);
+					break;
+
 			// Keepalive
 				case	RX_KA_peri:		keepaliveSetPeriod(getFloatFromStr(usbInBuf)) ? usbEnq(scpiTxMsgs[TX_PARAM_OK]) : usbEnq(scpiTxMsgs[TX_PARAM_ERR]);
 					break;

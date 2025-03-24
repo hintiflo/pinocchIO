@@ -32,6 +32,9 @@ bool		getTimerState(TIM_TypeDef * TIMx);
 uint32_t 	getTimerPSC(float period);
 uint32_t 	getTimerARR(float period, uint32_t psc);
 
+
+
+
 bool initTIM(TIM_TypeDef * TIMx, int psc, int arr);
 bool setTIM(TIM_TypeDef * TIMx, float period);
 bool startTIM(TIM_TypeDef * TIMx);
@@ -47,6 +50,9 @@ void tim1ClrRegUpdating();
 void tim1SetRanout();
 bool tim1GetRanout();
 void tim1ClrRanout();
+
+bool setTimerA(float period);
+
 
 #ifdef	TIMS_MANUAL_IRQ
 	void TIM2_IRQHandler(void);	//timer 2 interrupt service routine

@@ -119,3 +119,4 @@ void tim1SetRanout()
 }
 bool tim1GetRanout()			{	return tim1RanOut;		}
 void tim1ClrRanout()			{	tim1RanOut = false;	}
+bool setTimerA(float period) {	return setTIM(TIM2, period);		}

@@ -1,4 +1,6 @@
-### uC	STM32F103RET6
+## _Excerpt_ of the pinocchIO firmware
+ This is reduced _demo_ code for advertisement purposes, _not_ the complete functional project
+### uC STM32F103RET6
  * 32BIT ARM-MCU 
  * 512kb FLASH
  * max. 51 IO-channels
